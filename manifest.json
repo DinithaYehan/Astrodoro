@@ -5,5 +5,12 @@
   "description": "A space-themed Pomodoro productivity timer.",
   "action": {
     "default_popup": "popup.html"
-  }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "alarms",
+    "storage"
+  ]
 }
