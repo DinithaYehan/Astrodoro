@@ -36,3 +36,12 @@ body {
   50% { transform: translateY(-10px) rotate(5deg); }
   100% { transform: translateY(0px) rotate(0deg); }
 }
+.controls button {
+  padding: 10px 20px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 5px;
+}
