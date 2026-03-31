@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
   <title>Astrodoro</title>
@@ -12,20 +13,25 @@
       <h1 class="title">ASTRODORO</h1>
       <p class="subtitle">Mission Focus</p>
     </header>
-    
+
     <div class="rocket-container">
-      <div id="rocket" class="rocket idle">🚀</div>
+      <div id="rocket" class="rocket">🚀</div>
+      <div id="exhaust" class="exhaust"></div>
+      <!-- stars map to give depth -->
+      <div class="stars"></div>
     </div>
 
     <div class="timer-container">
       <h2 id="time-display">25:00</h2>
+      <p id="status-text">Ready for launch.</p>
     </div>
 
     <div class="controls">
-      <button id="start-btn">Ignition</button>
-      <button id="reset-btn">Abort</button>
+      <button id="start-btn" class="btn primary">Ignition</button>
+      <button id="reset-btn" class="btn secondary">Abort</button>
     </div>
   </div>
+
   <script src="popup.js"></script>
 </body>
 </html>
