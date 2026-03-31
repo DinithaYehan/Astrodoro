@@ -11,8 +11,28 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: radial-gradient(circle at bottom, #111827 0%, #030712 100%);
 }
 .title {
   color: #60a5fa;
   font-size: 1.5rem;
+}
+.rocket-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rocket {
+  font-size: 3rem;
+}
+.rocket.idle {
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
 }
