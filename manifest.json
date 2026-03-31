@@ -2,15 +2,23 @@
   "manifest_version": 3,
   "name": "Astrodoro",
   "version": "1.0",
-  "description": "A space-themed Pomodoro productivity timer.",
+  "description": "A space-themed Pomodoro productivity timer to fuel your rocket during focus sessions.",
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_title": "Open Astrodoro"
   },
   "background": {
     "service_worker": "background.js"
   },
   "permissions": [
     "alarms",
-    "storage"
+    "storage",
+    "activeTab",
+    "tabs",
+    "notifications",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ]
 }
