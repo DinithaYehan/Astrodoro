@@ -1,0 +1,18 @@
+:root {
+  --bg-dark: #070B19;
+  --text-light: #e2e8f0;
+}
+body {
+  width: 320px;
+  height: 480px;
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.title {
+  color: #60a5fa;
+  font-size: 1.5rem;
+}
