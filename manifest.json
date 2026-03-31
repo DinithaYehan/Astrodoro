@@ -5,7 +5,19 @@
   "description": "A space-themed Pomodoro productivity timer to fuel your rocket during focus sessions.",
   "action": {
     "default_popup": "popup.html",
-    "default_title": "Open Astrodoro"
+    "default_title": "Open Astrodoro",
+    "default_icon": {
+      "16": "assets/16.png",
+      "32": "assets/32.png",
+      "64": "assets/64.png",
+      "128": "assets/128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/16.png",
+    "32": "assets/32.png",
+    "64": "assets/64.png",
+    "128": "assets/128.png"
   },
   "background": {
     "service_worker": "background.js"
