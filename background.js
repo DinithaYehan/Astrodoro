@@ -1,4 +1,4 @@
-const DEFAULT_WORK_MINUTES = 1;
+const DEFAULT_WORK_MINUTES = 25;
 let timerState = {
     status: 'stopped',
     remainingTime: DEFAULT_WORK_MINUTES * 60,
@@ -72,7 +72,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
         triggerRocketAnimation();
         chrome.notifications.create({
             type: 'basic',
-            iconUrl: 'icon.png',
+            iconUrl: 'assets/128.png',
             title: 'Astrodoro: Liftoff!',
             message: 'Your 25-minute mission is complete. Great focus!'
         });
