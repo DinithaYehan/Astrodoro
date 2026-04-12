@@ -4,14 +4,84 @@ const resetBtn = document.getElementById('reset-btn');
 const statusText = document.getElementById('status-text');
 const rocket = document.getElementById('rocket');
 
-// Format total seconds into MM:SS
+// Theme & Settings elements
+const themeBtn = document.getElementById('theme-btn');
+const minInput = document.getElementById('min-input');
+const secInput = document.getElementById('sec-input');
+const incTimeBtn = document.getElementById('inc-time');
+const decTimeBtn = document.getElementById('dec-time');
+const saveSettingsBtn = document.getElementById('save-settings-btn');
+
+// --- THEME LOGIC ---
+let isDayMode = false;
+chrome.storage.local.get(['themeMode', 'customTime'], (data) => {
+    if (data.themeMode === 'day') {
+        isDayMode = true;
+        document.body.classList.add('theme-day');
+        themeBtn.textContent = '☀️';
+    } else {
+        document.body.classList.remove('theme-day');
+        themeBtn.textContent = '🌙';
+    }
+    
+    // Load custom timer default if saved
+    if (data.customTime) {
+        minInput.value = Math.floor(data.customTime / 60);
+        secInput.value = (data.customTime % 60).toString().padStart(2, '0');
+    }
+});
+
+themeBtn.addEventListener('click', () => {
+    isDayMode = !isDayMode;
+    if (isDayMode) {
+        document.body.classList.add('theme-day');
+        themeBtn.textContent = '☀️';
+        chrome.storage.local.set({themeMode: 'day'});
+    } else {
+        document.body.classList.remove('theme-day');
+        themeBtn.textContent = '🌙';
+        chrome.storage.local.set({themeMode: 'dark'});
+    }
+});
+
+// --- SETTINGS LOGIC ---
+incTimeBtn.addEventListener('click', () => {
+    let m = parseInt(minInput.value) || 0;
+    if (m < 99) minInput.value = m + 1;
+});
+
+decTimeBtn.addEventListener('click', () => {
+    let m = parseInt(minInput.value) || 0;
+    if (m > 1) minInput.value = m - 1;
+});
+
+saveSettingsBtn.addEventListener('click', () => {
+    let m = parseInt(minInput.value) || 0;
+    let s = parseInt(secInput.value) || 0;
+    let totalSeconds = (m * 60) + s;
+    if (totalSeconds < 1) totalSeconds = 60; 
+    
+    // Save locally
+    chrome.storage.local.set({customTime: totalSeconds});
+    
+    
+    chrome.runtime.sendMessage({ action: 'updateTime', seconds: totalSeconds });
+    
+    
+    saveSettingsBtn.textContent = "Saved!";
+    setTimeout(() => {
+        saveSettingsBtn.textContent = "Save Timer";
+        fetchTimerState(); 
+    }, 1000);
+});
+
+// --- TIMER LOGIC ---
 function formatTime(totalSeconds) {
     const minutes = Math.floor(Math.max(0, totalSeconds) / 60);
     const seconds = Math.max(0, totalSeconds) % 60;
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
-// Update UI based on current timer state
 function updateUI(state) {
     timeDisplay.textContent = formatTime(state.remainingTime);
     
@@ -30,12 +100,10 @@ function updateUI(state) {
         startBtn.classList.remove("running");
         statusText.textContent = "Liftoff successful! 🌟";
         timeDisplay.textContent = "00:00";
-        // Launch animation
         if (!rocket.classList.contains("launching")) {
             rocket.className = "rocket launching";
         }
     } else {
-        // Stopped
         startBtn.textContent = "Ignition";
         startBtn.classList.remove("running");
         statusText.textContent = "Ready for launch.";
@@ -43,26 +111,20 @@ function updateUI(state) {
     }
 }
 
-// Check with the background script to see current timer state
 function fetchTimerState() {
     chrome.runtime.sendMessage({ action: 'getState' }, (response) => {
-        if (response) {
-            updateUI(response);
-        }
+        if (response) updateUI(response);
     });
 }
 
-// Listen for updates from the background
 chrome.runtime.onMessage.addListener((message) => {
     if (message.action === 'tick' || message.action === 'stateUpdate') {
         updateUI(message.state);
     }
 });
 
-// Event Listeners for buttons
 startBtn.addEventListener('click', () => {
     chrome.runtime.sendMessage({ action: 'toggle' });
-    // Re-fetch state immediately so UI updates instantly
     setTimeout(fetchTimerState, 50);
 });
 
@@ -74,5 +136,4 @@ resetBtn.addEventListener('click', () => {
     }, 50);
 });
 
-// On load, fetch current state
 document.addEventListener('DOMContentLoaded', fetchTimerState);
