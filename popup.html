@@ -9,15 +9,16 @@
 </head>
 <body>
   <div class="container">
+    <button id="theme-btn" class="theme-btn">🌙</button>
+
     <header class="header">
       <h1 class="title">ASTRODORO</h1>
       <p class="subtitle">Mission Focus</p>
     </header>
 
     <div class="rocket-container">
-      <div id="rocket" class="rocket">🚀</div>
+      <div id="rocket" class="rocket idle">🚀</div>
       <div id="exhaust" class="exhaust"></div>
-      <!-- stars map to give depth -->
       <div class="stars"></div>
     </div>
 
@@ -30,6 +31,18 @@
       <button id="start-btn" class="btn primary">Ignition</button>
       <button id="reset-btn" class="btn secondary">Abort</button>
     </div>
+
+    <div class="settings-panel">
+      <div class="time-adjust">
+        <button id="dec-time" class="adj-btn">-</button>
+        <input type="number" id="min-input" value="25" min="1" max="99">
+        <span>:</span>
+        <input type="number" id="sec-input" value="00" min="0" max="59">
+        <button id="inc-time" class="adj-btn">+</button>
+      </div>
+      <button id="save-settings-btn" class="btn secondary">Save Timer</button>
+    </div>
+
   </div>
 
   <script src="popup.js"></script>
